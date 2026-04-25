@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/completiontimed/db" VERSION="20260424" COMMENT="XMLDB file for Moodle mod_completiontimed"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="completiontimed" COMMENT="Stores completiontimed activity instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course completiontimed activity belongs to"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="name field for moodle instances"/>
+        <FIELD NAME="intro" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="General introduction of the completiontimed activity"/>
+        <FIELD NAME="introformat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Format of the intro field"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="requiredtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="60" SEQUENCE="false" COMMENT="Time required in seconds to complete"/>
+        <FIELD NAME="completionrequiredtime" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="If true, student must view for required time"/>
+        <FIELD NAME="youtubeurl" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="YouTube Video URL"/>
+        <FIELD NAME="autocalculatetime" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="If true, use youtube duration"/>
+        
+        <FIELD NAME="mcqtime" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Time in seconds to show MCQ"/>
+        <FIELD NAME="mcqquestion" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The MCQ Question"/>
+        <FIELD NAME="mcqoptiona" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Option A"/>
+        <FIELD NAME="mcqoptionb" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Option B"/>
+        <FIELD NAME="mcqoptionc" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Option C"/>
+        <FIELD NAME="mcqoptiond" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Option D"/>
+        <FIELD NAME="mcqcorrect" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Correct Option Index 0-3"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="course" UNIQUE="false" FIELDS="course"/>
+      </INDEXES>
+    </TABLE>
+    
+    <TABLE NAME="completiontimed_attempts" COMMENT="Stores student MCQ answers">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="completiontimedid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="answer" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="correct" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="completiontimedid" TYPE="foreign" FIELDS="completiontimedid" REFTABLE="completiontimed" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
